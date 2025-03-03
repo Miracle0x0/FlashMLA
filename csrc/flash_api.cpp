@@ -71,8 +71,8 @@ mha_fwd_kvcache_mla(
     const at::Tensor &num_splits                 // batch_size + 1
 ) {
     auto dprops = at::cuda::getCurrentDeviceProperties();
-    bool is_sm90 = dprops->major == 9 && dprops->minor == 0;
-    TORCH_CHECK(is_sm90);
+    bool is_sm8x = dprops->major == 8 && dprops->minor >= 0;
+    TORCH_CHECK(is_sm8x);
 
     at::Tensor vcache = vcache_.has_value() ? vcache_.value() : kcache;
 
@@ -185,8 +185,8 @@ mha_fwd_kvcache_mla(
     params.oaccum_ptr = out_accum.data_ptr();
 
     auto stream = at::cuda::getCurrentCUDAStream().stream();
-    TORCH_CHECK(head_size == 576);
-    run_mha_fwd_splitkv_mla<cutlass::bfloat16_t, 576>(params, stream);
+    TORCH_CHECK(head_size == 192);
+    run_mha_fwd_splitkv_mla<cutlass::bfloat16_t, 192>(params, stream);
 
     out = out.view({batch_size, seqlen_q_ori, ngroups, num_heads_k, head_size_v}).transpose(2, 3)
             .reshape({batch_size, seqlen_q_ori, num_heads_ori, head_size_v});

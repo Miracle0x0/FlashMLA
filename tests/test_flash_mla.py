@@ -32,7 +32,10 @@ def cal_diff(x: torch.Tensor, y: torch.Tensor, name: str) -> None:
     RMSE = ((x - y) * (x - y)).mean().sqrt().item()
     cos_diff = 1 - 2 * (x * y).sum().item() / max((x * x + y * y).sum().item(), 1e-12)
     amax_diff = (x - y).abs().max().item()
-    # print(f"{name}: {cos_diff=}, {RMSE=}, {amax_diff=}")
+    print(f"{name}: {cos_diff=}, {RMSE=}, {amax_diff=}")
+    # # print nan coordinates of x
+    # print("nan x", torch.isnan(x).nonzero(as_tuple=False))
+    # print("nan y", torch.isnan(y).nonzero(as_tuple=False))
     assert cos_diff < 1e-5
 
 
@@ -105,9 +108,10 @@ if __name__ == "__main__":
     random.seed(0)
 
     h_kv = 1
-    d, dv = 576, 512
+    d, dv = 192, 128
     causal = True
 
+    # test_flash_mla(32, 2, 4096, 16, 1, 192, 128, True, True)
     for b in [128]:
         for s in [4096, 8192]:
             for h_q in [16, 32, 64, 128]:  # TP = 8, 4, 2, 1
