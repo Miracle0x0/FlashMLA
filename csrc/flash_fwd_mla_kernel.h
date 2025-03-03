@@ -446,7 +446,7 @@ __forceinline__ __device__ void compute_attn_1rowblock_splitkv_mla(const Flash_f
 }
 
 template<typename Kernel_traits, bool Is_causal, typename SharedStorage>
-__global__ void __launch_bounds__(Kernel_traits::kNThreads, 1, 1)
+__global__ void __launch_bounds__(Kernel_traits::kNThreads)
 flash_fwd_splitkv_mla_kernel(__grid_constant__ const Flash_fwd_mla_params params) {
     constexpr int kBlockN = Kernel_traits::kBlockN;
     const int m_block = blockIdx.x;
@@ -482,7 +482,7 @@ flash_fwd_splitkv_mla_kernel(__grid_constant__ const Flash_fwd_mla_params params
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename Element, typename ElementAccum, typename index_t, int kHeadDimV, int kMaxSplits>
-__global__ void __launch_bounds__(256, 1, 1)
+__global__ void __launch_bounds__(256)
 flash_fwd_splitkv_mla_combine_kernel(__grid_constant__ const Flash_fwd_mla_params params) {
     constexpr int kNThreads = 128;
 
@@ -604,7 +604,7 @@ void run_mha_fwd_splitkv_mla(Flash_fwd_mla_params &params, cudaStream_t stream) 
 
 static constexpr int MaxBatchSize = 4096;
 
-__global__ void __launch_bounds__(256, 1, 1)
+__global__ void __launch_bounds__(256)
 get_mla_metadata_kernel(__grid_constant__ const Mla_metadata_params params) {
     int *seqlens_k_ptr = params.seqlens_k_ptr;
     int *tile_scheduler_metadata_ptr = params.tile_scheduler_metadata_ptr;
