@@ -108,7 +108,7 @@ if __name__ == "__main__":
     random.seed(0)
 
     h_kv = 1
-    d, dv = 320, 256
+    d, dv = 192, 128
     causal = True
 
     # test_flash_mla(32, 2, 4096, 16, 1, 192, 128, True, True)

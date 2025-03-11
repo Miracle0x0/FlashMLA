@@ -185,8 +185,8 @@ mha_fwd_kvcache_mla(
     params.oaccum_ptr = out_accum.data_ptr();
 
     auto stream = at::cuda::getCurrentCUDAStream().stream();
-    TORCH_CHECK(head_size == 320);
-    run_mha_fwd_splitkv_mla<cutlass::bfloat16_t, 320>(params, stream);
+    TORCH_CHECK(head_size == 192);
+    run_mha_fwd_splitkv_mla<cutlass::bfloat16_t, 192>(params, stream);
 
     out = out.view({batch_size, seqlen_q_ori, ngroups, num_heads_k, head_size_v}).transpose(2, 3)
             .reshape({batch_size, seqlen_q_ori, num_heads_ori, head_size_v});
