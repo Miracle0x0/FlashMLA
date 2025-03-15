@@ -1,6 +1,6 @@
 # FlashMLA
 
-***Adapted from：*** https://github.com/deepseek-ai/FlashMLA/
+***Adapted from：*** https://github.com/deepseek-ai/FlashMLA/ && https://github.com/pzhao-eng/FlashMLA/
 
 FlashMLA is an efficient MLA decoding kernel for Hopper GPUs, optimized for variable-length sequences serving.
 

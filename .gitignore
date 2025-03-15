@@ -3,3 +3,10 @@ build
 *.egg-info/
 __pycache__/
 dist/
+
+.cache/
+.clangd
+compile_commands.json
+.python-version
+pyproject.toml
+uv.lock
